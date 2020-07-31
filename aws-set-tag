@@ -1,0 +1,6 @@
+#!/bin/bash
+INSTANCE_ID="`wget -qO- http://instance-data/latest/meta-data/instance-id`"
+REGION="`wget -qO- http://instance-data/latest/meta-data/placement/availability-zone | sed -e 's:\([0-9][0-9]*\)[a-z]*\$:\\1:'`"
+#echo "`aws ec2 describe-tags --filters "Name=resource-id,Values=$INSTANCE_ID" "Name=key,Values=$1" --region $REGION --output=text | cut -f5`"
+
+aws ec2 create-tags  --resources $INSTANCE_ID  --tags "Key='$1',Value='$2'"  --region $REGION
